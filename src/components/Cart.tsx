@@ -1,7 +1,11 @@
 import React from "react";
 import { useCart } from "../context/CartContext";
 
-const Cart = ({ onClose }) => {
+interface CartProps {
+  onClose: () => void;
+}
+
+const Cart: React.FC<CartProps> = ({ onClose }) => {
   const { cart, removeFromCart } = useCart();
 
   return (
@@ -9,15 +13,15 @@ const Cart = ({ onClose }) => {
       <div className="bg-white p-6 rounded-lg w-80">
         <h3 className="text-lg font-semibold mb-4">Sepetiniz</h3>
         {cart.length === 0 ? (
-          <p>Sepenitizde ürün yok.</p>
+          <p>Sepetinizde ürün yok.</p>
         ) : (
           <ul>
-            {cart.map((item) => (
+            {cart.map((item: any) => (
               <li
                 key={item.id}
                 className="flex justify-between items-center mb-4"
               >
-                <span>{product.title}</span>
+                <span>{item.title}</span>
                 <button
                   onClick={() => removeFromCart(item.id)}
                   className="text-red-500"
