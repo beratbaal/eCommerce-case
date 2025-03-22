@@ -1,5 +1,7 @@
 "use client";
 import React from "react";
+import Button from "./Button";
+import { FaShoppingCart } from "react-icons/fa";
 
 interface ProductCardProps {
   title: string;
@@ -21,7 +23,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
 }) => {
   const displayRating = rating ? rating.rate : 0;
   const reviewCount = rating ? rating.count : 0;
-
+  const handleAddToCart = () => {
+    console.log(`${title} sepete eklendi.`);
+  };
   return (
     <div className="relative group border rounded-lg overflow-hidden shadow-lg cursor-pointer transform transition-transform duration-300 hover:scale-105">
       <div className="h-64 w-full overflow-hidden">
@@ -30,11 +34,21 @@ const ProductCard: React.FC<ProductCardProps> = ({
       <div className="absolute inset-0 bg-black bg-opacity-70 opacity-0 group-hover:opacity-100 flex flex-col justify-center items-center text-white p-4 transition-opacity duration-300">
         <h2 className="text-lg font-bold mb-2">{title}</h2>
         <p className="text-gray-300 line-clamp-5 mb-2">{description}</p>
-        <div className="flex flex-col items-start w-full justify-start">
-          <p className="text-yellow-400">
-            {"★".repeat(Math.round(displayRating))}
-          </p>
-          <span className="text-gray-400">({reviewCount} reviews)</span>
+        <div className="flex justify-between w-full">
+          <div className="flex flex-col items-start w-full justify-start">
+            <p className="text-yellow-400">
+              {"★".repeat(Math.round(displayRating))}
+            </p>
+            <span className="text-gray-400">({reviewCount} reviews)</span>
+          </div>
+          <div>
+            <Button
+              variant="addToCart"
+              text="Sepete Ekle"
+              onClick={handleAddToCart}
+              icon={<FaShoppingCart />}
+            />
+          </div>
         </div>
       </div>
       <div className="p-4 bg-white">
