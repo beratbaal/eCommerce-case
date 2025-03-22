@@ -31,8 +31,10 @@ const Products: React.FC<ProductsProps> = ({ columns = 4 }) => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
-      <h1 className="text-3xl font-bold mb-6">Ürün Listesi</h1>
+    <div className="min-h-screen bg-gray-100 p-20">
+      <h1 className="text-3xl text-gray-950  font-bold mb-6 deva">
+        Ürün Listesi
+      </h1>
       <div
         className={`grid grid-cols-${columns} gap-6`}
         style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }}
