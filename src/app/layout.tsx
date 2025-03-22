@@ -2,7 +2,7 @@
 
 import React from "react";
 import { CartProvider } from "../context/CartContext";
-import "../app/globals.css";
+import "./globals.css";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
