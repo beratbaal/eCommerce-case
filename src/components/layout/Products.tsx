@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { fetchProducts } from "../../services/api";
 import ProductCard from "../UI/ProductCard";
+import Pagination from "../UI/Pagination";
 
 interface Product {
   id: number;
@@ -21,6 +22,8 @@ interface ProductsProps {
 
 const Products: React.FC<ProductsProps> = ({ columns = 4 }) => {
   const [products, setProducts] = useState<Product[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 9;
 
   useEffect(() => {
     const getProducts = async () => {
@@ -30,16 +33,21 @@ const Products: React.FC<ProductsProps> = ({ columns = 4 }) => {
     getProducts();
   }, []);
 
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedProducts = products.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  );
+  const totalPages = Math.ceil(products.length / itemsPerPage);
+
   return (
     <div className="min-h-screen bg-gray-100 p-20">
-      <h1 className="text-3xl text-gray-950  font-bold mb-6 deva">
-        Ürün Listesi
-      </h1>
+      <h1 className="text-3xl text-gray-950 font-bold mb-6">Ürün Listesi</h1>
       <div
-        className={`grid grid-cols-${columns} gap-6`}
+        className="grid gap-6"
         style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }}
       >
-        {products.map((product) => (
+        {paginatedProducts.map((product) => (
           <ProductCard
             key={product.id}
             title={product.title}
@@ -50,6 +58,11 @@ const Products: React.FC<ProductsProps> = ({ columns = 4 }) => {
           />
         ))}
       </div>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
+      />
     </div>
   );
 };
