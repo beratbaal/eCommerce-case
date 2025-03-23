@@ -6,7 +6,8 @@ type CartState = {
 
 type CartAction =
   | { type: "ADD_TO_CART"; payload: any }
-  | { type: "REMOVE_FROM_CART"; payload: number };
+  | { type: "REMOVE_FROM_CART"; payload: number }
+  | { type: "UPDATE_QUANTITY"; payload: { id: string; quantity: number } };
 
 const cartReducer = (state: CartState, action: CartAction): CartState => {
   switch (action.type) {
@@ -16,6 +17,15 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
       return {
         ...state,
         items: state.items.filter((item) => item.id !== action.payload),
+      };
+    case "UPDATE_QUANTITY":
+      return {
+        ...state,
+        items: state.items.map((item) =>
+          item.id === action.payload.id
+            ? { ...item, quantity: action.payload.quantity }
+            : item
+        ),
       };
     default:
       return state;
