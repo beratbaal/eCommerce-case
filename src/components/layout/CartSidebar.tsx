@@ -29,7 +29,10 @@ const CartSidebar: React.FC = () => {
       >
         <div className="flex justify-between items-center  p-4 border-b">
           <h2 className="text-xl font-bold text-black">Sepet</h2>
-          <FaTimes className="text-xl cursor-pointer" onClick={toggleSidebar} />
+          <FaTimes
+            className="text-xl cursor-pointer bg-black"
+            onClick={toggleSidebar}
+          />
         </div>
         <div className="p-4 text-black">
           {state.items.length === 0 ? (

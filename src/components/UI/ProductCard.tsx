@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Button from "./Button";
 import { FaShoppingCart } from "react-icons/fa";
 import { useCart } from "@/context/CartContext";
@@ -25,6 +25,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const displayRating = rating ? rating.rate : 0;
   const reviewCount = rating ? rating.count : 0;
   const { state, dispatch } = useCart();
+
+  const [isClicked, setIsClicked] = useState(false);
 
   // Sepette aynı ürün var mı?
   const existingProduct = state.items.find((item) => item.title === title);
@@ -58,8 +60,18 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   const quantity = existingProduct ? existingProduct.quantity : 0;
 
+  const handleCardClick = () => {
+    setIsClicked(true);
+  };
+
   return (
-    <div className="relative group border rounded-lg overflow-hidden shadow-lg cursor-pointer transform transition-transform duration-300 hover:scale-105">
+    <div
+      className={`relative group border rounded-lg overflow-hidden shadow-lg cursor-pointer transform transition-transform duration-300 ${
+        isClicked ? "hover:scale-100" : "hover:scale-105"
+      }`}
+      onClick={handleCardClick}
+      onFocus={() => setIsClicked(true)} // Focus olunca da isClicked aktif olacak
+    >
       <div className="h-64 w-full overflow-hidden">
         <img src={image} alt={title} className="w-full h-full object-contain" />
       </div>
@@ -87,6 +99,19 @@ const ProductCard: React.FC<ProductCardProps> = ({
       </div>
       <div className="p-4 bg-white">
         <p className="text-gray-700 font-bold">${price.toFixed(2)}</p>
+      </div>
+
+      {/* Mobildeki fiyat ve buton kısmı */}
+      <div className="block md:hidden p-4 bg-white">
+        <div className="flex justify-between items-center">
+          <p className="text-gray-700 font-bold">${price.toFixed(2)}</p>
+          <Button
+            variant="addToCart"
+            text={`Sepete Ekle ${quantity > 0 ? `(${quantity})` : ""}`}
+            onClick={handleAddToCart}
+            icon={<FaShoppingCart />}
+          />
+        </div>
       </div>
     </div>
   );
