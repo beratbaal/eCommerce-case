@@ -33,14 +33,25 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
 };
 
 const CartContext = createContext<
-  { state: CartState; dispatch: React.Dispatch<CartAction> } | undefined
+  | {
+      state: CartState;
+      dispatch: React.Dispatch<CartAction>;
+      totalQuantity: number; // totalQuantity burada tanımlandı
+    }
+  | undefined
 >(undefined);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(cartReducer, { items: [] });
 
+  // Sepetteki toplam miktarı hesapla
+  const totalQuantity = state.items.reduce(
+    (total, item) => total + item.quantity,
+    0
+  );
+
   return (
-    <CartContext.Provider value={{ state, dispatch }}>
+    <CartContext.Provider value={{ state, dispatch, totalQuantity }}>
       {children}
     </CartContext.Provider>
   );
