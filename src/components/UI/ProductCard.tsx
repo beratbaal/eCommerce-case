@@ -2,6 +2,7 @@
 import React from "react";
 import Button from "./Button";
 import { FaShoppingCart } from "react-icons/fa";
+import { useCart } from "@/context/CartContext";
 
 interface ProductCardProps {
   title: string;
@@ -23,9 +24,21 @@ const ProductCard: React.FC<ProductCardProps> = ({
 }) => {
   const displayRating = rating ? rating.rate : 0;
   const reviewCount = rating ? rating.count : 0;
+  const { dispatch } = useCart();
+
   const handleAddToCart = () => {
+    dispatch({
+      type: "ADD_TO_CART",
+      payload: {
+        id: title,
+        title,
+        price,
+        image,
+      },
+    });
     console.log(`${title} sepete eklendi.`);
   };
+
   return (
     <div className="relative group border rounded-lg overflow-hidden shadow-lg cursor-pointer transform transition-transform duration-300 hover:scale-105">
       <div className="h-64 w-full overflow-hidden">
